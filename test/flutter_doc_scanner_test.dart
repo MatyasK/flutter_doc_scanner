@@ -12,10 +12,10 @@ class MockFlutterDocScannerPlatform
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  Future<DocumentScanResult?> getScanDocuments() => Future.value();
+  Future<DocumentScanResult> getScanDocuments() => Future.value();
 
   @override
-  Future<DocumentScanResult?> getScanDocumentsUri() => Future.value();
+  Future<DocumentScanResult> getScanDocumentsUri() => Future.value();
 }
 
 void main() {

@@ -26,13 +26,13 @@ class FlutterDocScannerWeb extends FlutterDocScannerPlatform {
   }
 
   @override
-  Future<DocumentScanResult?> getScanDocuments() async {
+  Future<DocumentScanResult> getScanDocuments() async {
     // Web implementation doesn't support document scanning
     throw UnimplementedError('Document scanning is not supported on web');
   }
 
   @override
-  Future<DocumentScanResult?> getScanDocumentsUri() async {
+  Future<DocumentScanResult> getScanDocumentsUri() async {
     // Web implementation doesn't support document scanning
     throw UnimplementedError('Document scanning is not supported on web');
   }

@@ -8,11 +8,11 @@ class FlutterDocScanner {
     return FlutterDocScannerPlatform.instance.getPlatformVersion();
   }
 
-  Future<DocumentScanResult?> getScanDocuments() {
+  Future<DocumentScanResult> getScanDocuments() {
     return FlutterDocScannerPlatform.instance.getScanDocuments();
   }
 
-  Future<DocumentScanResult?> getScanDocumentsUri() {
+  Future<DocumentScanResult> getScanDocumentsUri() {
     if (defaultTargetPlatform == TargetPlatform.android) {
       return FlutterDocScannerPlatform.instance.getScanDocumentsUri();
     } else {
