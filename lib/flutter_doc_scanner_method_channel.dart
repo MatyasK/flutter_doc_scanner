@@ -18,16 +18,18 @@ class MethodChannelFlutterDocScanner extends FlutterDocScannerPlatform {
   }
 
   @override
-  Future<DocumentScanResult?> getScanDocuments() async {
+  Future<DocumentScanResult> getScanDocuments() async {
     final Map<String, dynamic>? result = 
         await methodChannel.invokeMapMethod<String, dynamic>('getScanDocuments');
-    return result != null ? DocumentScanResult.fromMap(result) : null;
+    if (result == null) throw Exception('Failed to get scan documents');
+    return DocumentScanResult.fromMap(result);
   }
 
   @override
-  Future<DocumentScanResult?> getScanDocumentsUri() async {
+  Future<DocumentScanResult> getScanDocumentsUri() async {
     final Map<String, dynamic>? result = 
         await methodChannel.invokeMapMethod<String, dynamic>('getScanDocumentsUri');
-    return result != null ? DocumentScanResult.fromMap(result) : null;
+    if (result == null) throw Exception('Failed to get scan documents');
+    return DocumentScanResult.fromMap(result);
   }
 }

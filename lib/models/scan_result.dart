@@ -3,30 +3,37 @@ class DocumentScanResult {
   final int? pageCount;
   final List<String>? pageUris;
 
-  DocumentScanResult({
+  DocumentScanResult._({
     this.pdfUri,
     this.pageCount,
     this.pageUris,
   });
 
-  factory DocumentScanResult.fromMap(Map<String, dynamic> map) {
-    return DocumentScanResult(
-      pdfUri: map['pdfUri'] as String?,
+  static Future<DocumentScanResult> fromMap(Map<String, dynamic> map) async {
+    String? processedPdfUri;
+    List<String>? processedPageUris;
+
+    // Process PDF URI if available
+    if (map['pdfUri'] != null) {
+      processedPdfUri = _processUri(map['pdfUri'] as String);
+    }
+
+    // Process page URIs if available
+    if (map['Uri'] != null) {
+      final uris = (map['Uri'] as String).split(', ');
+      processedPageUris = [];
+      for (final uri in uris) {
+        final processedUri = _processUri(uri);
+        processedPageUris.add(processedUri);
+      }
+    }
+
+    return DocumentScanResult._(
+      pdfUri: processedPdfUri,
       pageCount: map['pageCount'] as int?,
-      pageUris: map['Uri'] != null ? (map['Uri'] as String).split(', ') : null,
+      pageUris: processedPageUris,
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'pdfUri': pdfUri,
-      'pageCount': pageCount,
-      'Uri': pageUris?.join(', '),
-    };
-  }
-
-  @override
-  String toString() {
-    return 'DocumentScanResult(pdfUri: $pdfUri, pageCount: $pageCount, pageUris: $pageUris)';
-  }
+  static String _processUri(String uri) => uri.replaceFirst('file://', '');
 }
