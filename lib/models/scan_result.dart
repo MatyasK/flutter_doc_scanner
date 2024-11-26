@@ -1,7 +1,3 @@
-import 'dart:io';
-import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart';
-
 class DocumentScanResult {
   final String? pdfUri;
   final int? pageCount;
@@ -19,7 +15,7 @@ class DocumentScanResult {
 
     // Process PDF URI if available
     if (map['pdfUri'] != null) {
-      processedPdfUri = await _processUri(map['pdfUri'] as String);
+      processedPdfUri = _processUri(map['pdfUri'] as String);
     }
 
     // Process page URIs if available
@@ -27,7 +23,7 @@ class DocumentScanResult {
       final uris = (map['Uri'] as String).split(', ');
       processedPageUris = [];
       for (final uri in uris) {
-        final processedUri = await _processUri(uri);
+        final processedUri = _processUri(uri);
         processedPageUris.add(processedUri);
       }
     }
@@ -39,16 +35,5 @@ class DocumentScanResult {
     );
   }
 
-  static Future<String> _processUri(String uri) async {
-    final filePath = uri.replaceFirst('file://', '');
-    
-    if (filePath.startsWith('content://')) {
-      final bytes = await File(filePath).readAsBytes();
-      final tempDir = await getTemporaryDirectory();
-      final tempFile = File(path.join(tempDir.path, path.basename(filePath)));
-      await tempFile.writeAsBytes(bytes);
-      return tempFile.path;
-    }
-    return filePath;
-  }
+  static String _processUri(String uri) => uri.replaceFirst('file://', '');
 }
