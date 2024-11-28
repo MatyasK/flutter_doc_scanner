@@ -3,37 +3,32 @@ class DocumentScanResult {
   final int? pageCount;
   final List<String>? pageUris;
 
-  DocumentScanResult._({
+  const DocumentScanResult({
     this.pdfUri,
     this.pageCount,
     this.pageUris,
   });
 
-  static Future<DocumentScanResult> fromMap(Map<String, dynamic> map) async {
-    String? processedPdfUri;
-    List<String>? processedPageUris;
-
-    // Process PDF URI if available
-    if (map['pdfUri'] != null) {
-      processedPdfUri = _processUri(map['pdfUri'] as String);
-    }
-
-    // Process page URIs if available
-    if (map['Uri'] != null) {
-      final uris = (map['Uri'] as String).split(', ');
-      processedPageUris = [];
-      for (final uri in uris) {
-        final processedUri = _processUri(uri);
-        processedPageUris.add(processedUri);
-      }
-    }
-
-    return DocumentScanResult._(
-      pdfUri: processedPdfUri,
+  factory DocumentScanResult.fromMap(Map<String, dynamic> map) {
+    return DocumentScanResult(
+      pdfUri: map['pdfUri']?.toString().replaceFirst('file://', ''),
       pageCount: map['pageCount'] as int?,
-      pageUris: processedPageUris,
+      pageUris: map['Uri']?.toString().split(', ')
+          .map((uri) => uri.replaceFirst('file://', ''))
+          .toList(),
     );
   }
 
-  static String _processUri(String uri) => uri.replaceFirst('file://', '');
+  /// Creates a copy of this DocumentScanResult with the given fields replaced with new values
+  DocumentScanResult copyWith({
+    String? pdfUri,
+    int? pageCount,
+    List<String>? pageUris,
+  }) {
+    return DocumentScanResult(
+      pdfUri: pdfUri ?? this.pdfUri,
+      pageCount: pageCount ?? this.pageCount,
+      pageUris: pageUris ?? this.pageUris,
+    );
+  }
 }
