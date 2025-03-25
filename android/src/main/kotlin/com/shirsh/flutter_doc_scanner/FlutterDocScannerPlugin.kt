@@ -3,17 +3,10 @@ package com.shirsh.flutter_doc_scanner
 
 import android.app.Activity
 import android.app.Application
-import android.app.Application.ActivityLifecycleCallbacks
 import android.content.Intent
 import android.content.IntentSender
-import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.IntentSenderRequest
 import androidx.core.app.ActivityCompat.startIntentSenderForResult
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
@@ -23,15 +16,11 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.BinaryMessenger
-import io.flutter.plugin.common.EventChannel
-import io.flutter.plugin.common.EventChannel.EventSink
-import io.flutter.plugin.common.EventChannel.StreamHandler
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.ActivityResultListener
-import io.flutter.plugin.common.PluginRegistry.Registrar
 
 class FlutterDocScannerPlugin : MethodCallHandler, ActivityResultListener,
     FlutterPlugin, ActivityAware {
@@ -180,7 +169,6 @@ class FlutterDocScannerPlugin : MethodCallHandler, ActivityResultListener,
         messenger: BinaryMessenger,
         applicationContext: Application?,
         activity: Activity,
-        registrar: Registrar?,
         activityBinding: ActivityPluginBinding?
     ) {
         this.activity = activity
@@ -196,7 +184,6 @@ class FlutterDocScannerPlugin : MethodCallHandler, ActivityResultListener,
             pluginBinding!!.binaryMessenger,
             pluginBinding!!.applicationContext as Application,
             activityBinding!!.activity,
-            null,
             activityBinding
         )
     }
